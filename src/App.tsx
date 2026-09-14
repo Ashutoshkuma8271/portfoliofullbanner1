@@ -14,12 +14,13 @@ import { CollaborateModal, CollaborateMode } from './components/CollaborateModal
 import { InvestorLeadModal } from './components/InvestorLeadModal';
 import { MediaKitModal } from './components/MediaKitModal';
 import { AdminCmsModal } from './components/AdminCmsModal';
-import { GlobalLoadingOverlay } from './components/GlobalLoadingOverlay';
 import { PageTransitionIndicator } from './components/PageTransitionIndicator';
 import { ScreenLoadingFallback } from './components/ScreenLoadingFallback';
 
-// Code-split route screens using React.lazy for optimized initial load performance
-const HomeScreen = lazy(() => import('./screens/HomeScreen'));
+// Primary landing screen is imported synchronously for instant first paint and crawler/screenshot previews
+import HomeScreen from './screens/HomeScreen';
+
+// Code-split secondary route screens using React.lazy for optimized bundle performance
 const AboutScreen = lazy(() => import('./screens/AboutScreen'));
 const TradeScreen = lazy(() => import('./screens/TradeScreen'));
 const MediaPressScreen = lazy(() => import('./screens/MediaPressScreen'));
@@ -95,9 +96,6 @@ export default function App() {
 
   return (
     <div className="min-h-screen bg-[#131314] text-[#e5e2e3] flex flex-col font-sans selection:bg-[#d4af37] selection:text-[#131314] overflow-x-hidden">
-      {/* Global Luxury Loading Spinner & Transition Overlay */}
-      <GlobalLoadingOverlay />
-
       {/* Luxury Golden Laser Page Transition Indicator */}
       <PageTransitionIndicator activeTab={activeTab} />
 
