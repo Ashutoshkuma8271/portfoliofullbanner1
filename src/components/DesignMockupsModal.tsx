@@ -179,7 +179,7 @@ export const DesignMockupsModal: React.FC<DesignMockupsModalProps> = ({
                   >
                     <div className="space-y-4">
                       <div className="aspect-[16/10] rounded-lg overflow-hidden relative border border-[#4d4635]">
-                        <img src={concept.previewImg} alt={concept.name} className="w-full h-full object-cover" />
+                        <img src={concept.previewImg} alt={concept.name} loading="lazy" decoding="async" className="w-full h-full object-cover" />
                         <div className="absolute inset-0 bg-gradient-to-t from-black via-black/40 to-transparent"></div>
                         <div className="absolute bottom-3 left-3 right-3">
                           <span className="font-mono text-[10px] text-[#f2ca50] uppercase tracking-wider block">

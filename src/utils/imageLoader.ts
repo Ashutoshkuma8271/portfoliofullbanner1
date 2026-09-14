@@ -29,6 +29,46 @@ export interface ResponsiveImageProps {
 }
 
 /**
+ * Default sovereign ambient blur-up SVG data URL (<150 bytes)
+ * Emits an immediate warm-gold / obsidian gradient blur layer.
+ */
+export const DEFAULT_BLUR_DATA_URL =
+  'data:image/svg+xml;charset=utf-8,%3Csvg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 10"%3E%3Crect width="100%25" height="100%25" fill="%2314120e"/%3E%3Ccircle cx="50%25" cy="50%25" r="40%25" fill="%23d4af37" opacity="0.12" filter="blur(4px)"/%3E%3C/svg%3E';
+
+/**
+ * Generates an ultra-lightweight Low Quality Image Placeholder (LQIP) URL
+ * (<1KB) for instant loading and progressive blur-up rendering on slow mobile networks.
+ */
+export function getBlurPlaceholderUrl(rawUrl: string): string {
+  if (!rawUrl) return DEFAULT_BLUR_DATA_URL;
+
+  try {
+    // Unsplash dynamic low-res blur thumbnail
+    if (rawUrl.includes('images.unsplash.com')) {
+      const url = new URL(rawUrl);
+      url.searchParams.set('w', '28');
+      url.searchParams.set('q', '20');
+      url.searchParams.set('auto', 'format');
+      url.searchParams.set('fit', 'crop');
+      url.searchParams.set('blur', '10');
+      return url.toString();
+    }
+
+    // Google User Content photo with low-res thumbnail
+    if (rawUrl.includes('googleusercontent.com')) {
+      if (/=w\d+/.test(rawUrl)) {
+        return rawUrl.replace(/=w\d+[^?#]*/, '=w32-q20');
+      }
+      return `${rawUrl}=w32-q20`;
+    }
+
+    return rawUrl;
+  } catch {
+    return rawUrl;
+  }
+}
+
+/**
  * Generates an optimized image URL for CDNs supporting query parameters (e.g. Unsplash, Google Photos).
  */
 export function getOptimizedImageUrl(rawUrl: string, width?: number, quality = 85): string {
@@ -149,7 +189,7 @@ export function getHeroImageAttributes(
   options: ResponsiveImageOptions = {}
 ): ResponsiveImageProps {
   const {
-    priority = true,
+    priority = false,
     widths = [640, 960, 1280, 1920, 2560],
     sizes = '100vw',
     quality = 85,
@@ -167,6 +207,6 @@ export function getHeroImageAttributes(
     ...(srcSet ? { srcSet, sizes } : {}),
     loading: priority ? 'eager' : 'lazy',
     decoding: 'async',
-    fetchPriority: priority ? 'high' : 'auto',
+    fetchPriority: priority ? 'high' : 'low',
   };
 }

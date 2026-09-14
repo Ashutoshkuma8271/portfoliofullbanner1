@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { LEADERSHIP_INITIATIVES } from '../data/folioData';
+import { SkeletonImage } from '../components/SkeletonImage';
 import { Users, Award, ShieldCheck, HeartHandshake, CheckCircle2, Calendar, MapPin, Send, MessageCircle } from 'lucide-react';
 
 interface WomenLeadershipScreenProps {
@@ -194,14 +195,14 @@ export const WomenLeadershipScreen: React.FC<WomenLeadershipScreenProps> = ({ on
             <div key={event.id} className="bg-[#1c1b1c] border border-[#4d4635] rounded-xl overflow-hidden space-y-4 flex flex-col justify-between hover:border-[#f2ca50] transition-all duration-300 shadow-xl group">
               {event.image && (
                 <div className="relative h-44 w-full bg-[#14120f] overflow-hidden">
-                  <img
+                  <SkeletonImage
                     src={event.image}
                     alt={event.title}
-                    loading="lazy"
+                    containerClassName="w-full h-full"
                     className="w-full h-full object-cover filter brightness-[0.85] contrast-105 group-hover:scale-105 transition-transform duration-500"
                   />
-                  <div className="absolute inset-0 bg-gradient-to-t from-[#1c1b1c] via-transparent to-transparent"></div>
-                  <div className="absolute top-3 left-3 px-2.5 py-0.5 rounded bg-[#0a0907]/80 backdrop-blur-md border border-[#f2ca50]/40 text-[#f2ca50] font-sans text-[9px] font-bold tracking-widest uppercase">
+                  <div className="absolute inset-0 bg-gradient-to-t from-[#1c1b1c] via-transparent to-transparent pointer-events-none z-10"></div>
+                  <div className="absolute top-3 left-3 px-2.5 py-0.5 rounded bg-[#0a0907]/80 backdrop-blur-md border border-[#f2ca50]/40 text-[#f2ca50] font-sans text-[9px] font-bold tracking-widest uppercase z-10">
                     {event.badge}
                   </div>
                 </div>

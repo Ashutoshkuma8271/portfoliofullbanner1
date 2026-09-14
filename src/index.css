@@ -289,4 +289,15 @@
   *, *::before, *::after { animation-duration: .01ms !important; transition-duration: .01ms !important; }
 }
 
+/* Progressive Blur-Up Placeholder Effect for slow networks */
+.blur-up-placeholder {
+  filter: blur(20px);
+  transform: scale(1.08);
+  will-change: opacity, filter, transform;
+}
+
+.blur-up-image {
+  will-change: opacity, filter, transform;
+}
+
 

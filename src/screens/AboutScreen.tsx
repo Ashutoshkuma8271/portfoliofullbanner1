@@ -333,6 +333,8 @@ export const AboutScreen: React.FC<AboutScreenProps> = ({ onOpenCollaborate }) =
                 <img
                   src={activePhoto.image}
                   alt={activePhoto.title}
+                  loading="lazy"
+                  decoding="async"
                   referrerPolicy="no-referrer"
                   onError={(e) => {
                     if (activePhoto.fallbackImage) {

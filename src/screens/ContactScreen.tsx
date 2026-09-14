@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { Mail, MapPin, Phone, ShieldCheck, Clock, Send, CheckCircle2, MessageCircle, Copy, Check, ArrowRight } from 'lucide-react';
+import { SkeletonImage } from '../components/SkeletonImage';
 
 const CHANCERY_LOCATIONS = [
   {
@@ -122,26 +123,25 @@ export const ContactScreen: React.FC = () => {
           >
             {/* Architectural Chancery Imagery */}
             <div className="relative h-48 sm:h-52 w-full overflow-hidden bg-[#141314]">
-              <img
+              <SkeletonImage
                 src={chancery.image}
                 alt={`${chancery.title} Diplomatic Chancery`}
+                fallbackSrc={chancery.fallbackImage}
                 referrerPolicy="no-referrer"
-                onError={(e) => {
-                  (e.currentTarget as HTMLImageElement).src = chancery.fallbackImage;
-                }}
+                containerClassName="w-full h-full"
                 className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 filter brightness-[0.88] contrast-105"
               />
               {/* Subtle obsidian gradient to blend into card body */}
-              <div className="absolute inset-0 bg-gradient-to-t from-[#1c1b1c] via-[#1c1b1c]/40 to-transparent"></div>
+              <div className="absolute inset-0 bg-gradient-to-t from-[#1c1b1c] via-[#1c1b1c]/40 to-transparent pointer-events-none z-10"></div>
 
               {/* Chancery Region Tag */}
-              <div className={`absolute top-3.5 left-3.5 flex items-center gap-1.5 px-3 py-1 rounded bg-[#0a0a0b]/85 backdrop-blur-md border border-[#4d4635]/70 ${chancery.badgeColor} font-sans text-[10px] font-bold tracking-widest uppercase shadow-md`}>
+              <div className={`absolute top-3.5 left-3.5 flex items-center gap-1.5 px-3 py-1 rounded bg-[#0a0a0b]/85 backdrop-blur-md border border-[#4d4635]/70 ${chancery.badgeColor} font-sans text-[10px] font-bold tracking-widest uppercase shadow-md z-10`}>
                 <span className={`w-1.5 h-1.5 rounded-full ${chancery.dotColor} animate-pulse`}></span>
                 {chancery.region}
               </div>
 
               {/* Map Pin Badge */}
-              <div className={`absolute top-3.5 right-3.5 p-2 rounded-full bg-[#0a0a0b]/85 backdrop-blur-md border border-[#4d4635]/70 ${chancery.badgeColor} shadow-md`}>
+              <div className={`absolute top-3.5 right-3.5 p-2 rounded-full bg-[#0a0a0b]/85 backdrop-blur-md border border-[#4d4635]/70 ${chancery.badgeColor} shadow-md z-10`}>
                 <MapPin className="w-4 h-4" />
               </div>
 

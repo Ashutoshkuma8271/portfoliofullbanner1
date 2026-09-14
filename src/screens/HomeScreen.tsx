@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import { TabId } from '../types';
 import { PILLARS } from '../data/folioData';
 import { CollaborateMode } from '../components/CollaborateModal';
-import { getHeroImageAttributes, preloadPriorityImage } from '../utils/imageLoader';
+import { getHeroImageAttributes, preloadPriorityImage, getBlurPlaceholderUrl } from '../utils/imageLoader';
 import { SkeletonImage } from '../components/SkeletonImage';
 import {
   ArrowRight,
@@ -130,9 +130,12 @@ export const HomeScreen: React.FC<HomeScreenProps> = ({
     },
   ];
 
-  // Preload all hero banner images with priority hints for instant, seamless transitions
+  // Track individual loaded slides for progressive blur-up placeholder crossfade
+  const [loadedHeroSlides, setLoadedHeroSlides] = useState<Record<string, boolean>>({});
+
+  // Optimize hero asset loading for slow mobile networks:
+  // Preload only the first primary slide; all subsequent slides follow a 'loading=lazy' strategy
   useEffect(() => {
-    // 1. Priority load the primary active slide immediately with high fetchPriority
     if (heroSlides[0]) {
       preloadPriorityImage(heroSlides[0].image, {
         fetchPriority: 'high',
@@ -140,15 +143,6 @@ export const HomeScreen: React.FC<HomeScreenProps> = ({
         sizes: '100vw',
       });
     }
-
-    // 2. Background preload remaining slides for instant crossfades
-    heroSlides.slice(1).forEach((slide) => {
-      preloadPriorityImage(slide.image, {
-        fetchPriority: 'auto',
-        widths: [640, 960, 1280, 1920, 2560],
-        sizes: '100vw',
-      });
-    });
   }, []);
 
   const [touchStartX, setTouchStartX] = useState<number | null>(null);
@@ -224,6 +218,7 @@ export const HomeScreen: React.FC<HomeScreenProps> = ({
         {heroSlides.map((slide, index) => {
           const isActive = index === currentSlide;
           const isPriority = index === 0;
+          const isLoaded = !!loadedHeroSlides[slide.id];
           const heroImgAttrs = getHeroImageAttributes(slide.image, {
             priority: isPriority,
             widths: [640, 960, 1280, 1920, 2560],
@@ -231,38 +226,60 @@ export const HomeScreen: React.FC<HomeScreenProps> = ({
             quality: 85,
           });
 
+          const objectPositionClass =
+            slide.id === 'sovereign'
+              ? 'object-[center_15%] sm:object-center'
+              : slide.id === 'leadership'
+              ? 'object-[center_20%] sm:object-center'
+              : 'object-center';
+
           return (
             <div
               key={slide.id}
-              className={`absolute inset-0 transition-opacity duration-1000 ease-in-out ${
+              className={`absolute inset-0 transition-opacity duration-1000 ease-in-out bg-[#0a0907] ${
                 isActive ? 'opacity-100 z-0' : 'opacity-0 -z-10 pointer-events-none'
               }`}
             >
-              {/* YouTube / Instagram / Facebook Style Animated Shimmer Skeleton Base */}
-              <div
-                className="absolute inset-0 skeleton-shimmer-wave opacity-90"
+              {/* 1. Underlying Shimmer Wave Skeleton Base */}
+              {!isLoaded && (
+                <div
+                  className="absolute inset-0 skeleton-shimmer-wave opacity-90 z-0"
+                  aria-hidden="true"
+                />
+              )}
+
+              {/* 2. Progressive Blur-Up Placeholder (Micro LQIP for instant rendering on slow mobile networks) */}
+              <img
+                src={getBlurPlaceholderUrl(slide.image)}
+                alt=""
                 aria-hidden="true"
+                loading="eager"
+                decoding="async"
+                className={`absolute inset-0 w-full h-full object-cover blur-up-placeholder transition-opacity duration-1000 ease-out z-1 pointer-events-none ${objectPositionClass} ${
+                  isLoaded ? 'opacity-0' : 'opacity-85'
+                }`}
               />
 
+              {/* 3. The Full High-Resolution Cinematic Hero Slide with 'loading=lazy' Strategy for non-initial slides */}
               <img
                 {...heroImgAttrs}
+                loading={index === 0 ? 'eager' : 'lazy'}
+                decoding="async"
+                fetchPriority={index === 0 ? 'high' : 'low'}
+                onLoad={() => setLoadedHeroSlides((prev) => ({ ...prev, [slide.id]: true }))}
                 alt={slide.kicker}
-                className={`w-full h-full object-cover relative z-0 ${
-                  slide.id === 'sovereign'
-                    ? 'object-[center_15%] sm:object-center'
-                    : slide.id === 'leadership'
-                    ? 'object-[center_20%] sm:object-center'
-                    : 'object-center'
-                } hero-cinematic-image transition-transform duration-[7000ms] ease-out ${
+                className={`w-full h-full object-cover relative z-2 ${objectPositionClass} hero-cinematic-image blur-up-image transition-all duration-[7000ms] ease-out ${
                   isActive ? 'scale-105' : 'scale-100'
+                } ${
+                  isLoaded ? 'opacity-100 filter-none' : 'opacity-0 filter blur-sm'
                 }`}
               />
               {/* Dynamic luxury gradient overlays - keeping photography luminous and sharp */}
-              <div className="absolute inset-0 bg-gradient-to-r from-black/92 via-black/55 to-black/20 sm:from-black/95 sm:via-black/60 sm:to-black/15 z-1"></div>
-              <div className="absolute inset-0 bg-gradient-to-t from-[#070707] via-black/35 to-transparent z-1"></div>
+              <div className="absolute inset-0 bg-gradient-to-r from-black/92 via-black/55 to-black/20 sm:from-black/95 sm:via-black/60 sm:to-black/15 z-3 pointer-events-none"></div>
+              <div className="absolute inset-0 bg-gradient-to-t from-[#070707] via-black/35 to-transparent z-3 pointer-events-none"></div>
               {/* Ambient Gold Radial Glow behind the hero typography */}
-              <div className="absolute -left-16 sm:-left-20 top-1/4 w-[280px] sm:w-[600px] h-[280px] sm:h-[600px] bg-[#f2ca50]/12 rounded-full blur-[80px] sm:blur-[120px] pointer-events-none animate-gold-pulse z-1"></div>
-              <div className="absolute inset-0 hero-grain pointer-events-none z-1"></div>
+              <div className="absolute -left-16 sm:-left-20 top-1/4 w-[280px] sm:w-[600px] h-[280px] sm:h-[600px] bg-[#f2ca50]/12 rounded-full blur-[80px] sm:blur-[120px] pointer-events-none animate-gold-pulse z-3"></div>
+              <div className="absolute inset-0 hero-grain pointer-events-none z-3"></div>
             </div>
           );
         })}

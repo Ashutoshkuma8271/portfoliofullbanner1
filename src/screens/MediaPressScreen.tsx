@@ -408,13 +408,13 @@ export const MediaPressScreen: React.FC<MediaPressScreenProps> = ({ onOpenMediaK
                   className="bg-[#181613] border border-[#3e3422] rounded-xl overflow-hidden flex flex-col justify-between shadow-xl group card-3d-hover"
                 >
                   <div className="h-44 w-full overflow-hidden relative bg-[#0c0b0a]">
-                    <img
+                    <SkeletonImage
                       src={image}
                       alt={item.event}
-                      loading="lazy"
+                      containerClassName="w-full h-full"
                       className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500 filter brightness-90"
                     />
-                    <div className="absolute top-3 left-3 px-2.5 py-1 bg-[#0b0a08]/85 backdrop-blur-md rounded border border-[#f2ca50]/40 text-[#f2ca50] text-[9.5px] font-bold font-mono">
+                    <div className="absolute top-3 left-3 px-2.5 py-1 bg-[#0b0a08]/85 backdrop-blur-md rounded border border-[#f2ca50]/40 text-[#f2ca50] text-[9.5px] font-bold font-mono z-10">
                       {item.date}
                     </div>
                   </div>
