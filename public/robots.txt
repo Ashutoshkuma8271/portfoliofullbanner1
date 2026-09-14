@@ -1,0 +1,7 @@
+# ZeenatKureshi.com Robots Directive
+User-agent: *
+Allow: /
+Disallow: /admin
+Disallow: /api/vault
+
+Sitemap: https://zeenatkureshi.com/sitemap.xml

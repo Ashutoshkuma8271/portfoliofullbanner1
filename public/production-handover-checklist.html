@@ -1,0 +1,478 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Zeenat Kureshi — Website Production Handover & Asset Checklist</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700;800&family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --gold-primary: #b38728;
+      --gold-light: #d4af37;
+      --gold-glow: #f2ca50;
+      --dark-bg: #0d0c0a;
+      --dark-card: #15130f;
+      --border-color: #383020;
+      --text-main: #222222;
+      --text-muted: #555555;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'Montserrat', sans-serif;
+      background: #f4f2ee;
+      color: #1a1a1a;
+      line-height: 1.5;
+      padding: 40px 20px;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    .no-print-bar {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      max-width: 860px;
+      margin: 0 auto 24px auto;
+      background: #12100d;
+      border: 1px solid #d4af37;
+      border-radius: 8px;
+      padding: 14px 20px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      box-shadow: 0 8px 30px rgba(0, 0, 0, 0.25);
+    }
+
+    .no-print-bar p {
+      color: #e5e2e3;
+      font-size: 13px;
+      margin: 0;
+      font-weight: 500;
+    }
+
+    .btn-pdf {
+      background: linear-gradient(135deg, #d4af37 0%, #f2ca50 50%, #aa8010 100%);
+      color: #0d0c0a;
+      border: none;
+      padding: 10px 22px;
+      border-radius: 6px;
+      font-size: 13px;
+      font-weight: 700;
+      letter-spacing: 0.5px;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      box-shadow: 0 4px 15px rgba(212, 175, 55, 0.4);
+      transition: all 0.2s ease;
+    }
+
+    .btn-pdf:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 6px 20px rgba(242, 202, 80, 0.6);
+    }
+
+    .document-page {
+      max-width: 860px;
+      margin: 0 auto;
+      background: #ffffff;
+      padding: 48px 56px;
+      border-radius: 4px;
+      box-shadow: 0 4px 25px rgba(0, 0, 0, 0.08);
+      border-top: 6px solid #b38728;
+    }
+
+    .header-section {
+      text-align: center;
+      padding-bottom: 24px;
+      border-bottom: 2px solid #eae5db;
+      margin-bottom: 28px;
+    }
+
+    .badge {
+      display: inline-block;
+      font-size: 10px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      color: #8c6818;
+      background: #faf5ea;
+      border: 1px solid #e2d1a8;
+      padding: 4px 12px;
+      border-radius: 40px;
+      margin-bottom: 12px;
+    }
+
+    h1 {
+      font-family: 'Cinzel', serif;
+      font-size: 26px;
+      font-weight: 700;
+      color: #12100d;
+      letter-spacing: 0.5px;
+      margin-bottom: 6px;
+    }
+
+    .subtitle {
+      font-size: 13px;
+      color: #666;
+      font-weight: 500;
+      letter-spacing: 0.2px;
+    }
+
+    .meta-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 16px;
+      background: #fdfbf7;
+      border: 1px solid #ede7dc;
+      padding: 16px 20px;
+      border-radius: 6px;
+      margin-bottom: 28px;
+      font-size: 12px;
+    }
+
+    .meta-item strong {
+      display: block;
+      color: #735311;
+      text-transform: uppercase;
+      font-size: 9.5px;
+      letter-spacing: 1px;
+      margin-bottom: 2px;
+    }
+
+    .intro-box {
+      font-size: 12.5px;
+      line-height: 1.6;
+      color: #333;
+      margin-bottom: 28px;
+      padding-left: 14px;
+      border-left: 3px solid #b38728;
+    }
+
+    .section-title {
+      font-family: 'Cinzel', serif;
+      font-size: 15px;
+      font-weight: 700;
+      color: #1a1712;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      padding-bottom: 6px;
+      border-bottom: 1.5px solid #d4af37;
+      margin-top: 24px;
+      margin-bottom: 14px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .section-title span.number {
+      font-family: 'Montserrat', sans-serif;
+      font-size: 11px;
+      background: #1a1712;
+      color: #f2ca50;
+      padding: 2px 7px;
+      border-radius: 3px;
+    }
+
+    .check-list {
+      list-style: none;
+      margin-bottom: 20px;
+    }
+
+    .check-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+      padding: 9px 0;
+      border-bottom: 1px dashed #e8e3d8;
+      font-size: 12.5px;
+    }
+
+    .check-box {
+      width: 15px;
+      height: 15px;
+      border: 1.5px solid #8c6818;
+      border-radius: 3px;
+      margin-top: 3px;
+      flex-shrink: 0;
+    }
+
+    .item-content {
+      flex: 1;
+    }
+
+    .item-content strong {
+      color: #12100d;
+      font-weight: 600;
+    }
+
+    .item-desc {
+      font-size: 11.5px;
+      color: #555;
+      margin-top: 2px;
+      line-height: 1.4;
+    }
+
+    .fill-box {
+      margin-top: 5px;
+      height: 22px;
+      border-bottom: 1px solid #ccc;
+      color: #888;
+      font-size: 11px;
+      font-style: italic;
+    }
+
+    .footer-note {
+      margin-top: 36px;
+      padding-top: 18px;
+      border-top: 2px solid #eae5db;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      font-size: 11px;
+      color: #777;
+    }
+
+    .sign-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 40px;
+      margin-top: 30px;
+    }
+
+    .sign-box {
+      border-top: 1px solid #888;
+      padding-top: 6px;
+      font-size: 11px;
+      color: #444;
+    }
+
+    /* PRINT STYLES FOR CRISP 1-CLICK PDF */
+    @media print {
+      body {
+        background: #ffffff;
+        padding: 0;
+        margin: 0;
+        color: #000;
+      }
+      .no-print-bar {
+        display: none !important;
+      }
+      .document-page {
+        box-shadow: none;
+        padding: 20px 24px;
+        max-width: 100%;
+        border-top: 4px solid #b38728;
+      }
+      @page {
+        size: A4 portrait;
+        margin: 12mm 10mm;
+      }
+      .check-item {
+        page-break-inside: avoid;
+      }
+      .section-title {
+        page-break-after: avoid;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- TOP ACTION BAR (Hidden when printing to PDF) -->
+  <div class="no-print-bar">
+    <div>
+      <p><strong>Official Production Handover Document</strong></p>
+      <p style="font-size: 11.5px; color: #a9a69f;">Click the gold button below to download or save this form as a clean PDF.</p>
+    </div>
+    <button class="btn-pdf" onclick="window.print()">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+        <polyline points="7 10 12 15 17 10"></polyline>
+        <line x1="12" y1="15" x2="12" y2="3"></line>
+      </svg>
+      Download / Save as PDF
+    </button>
+  </div>
+
+  <!-- MAIN PRINTABLE DOCUMENT -->
+  <div class="document-page">
+    <div class="header-section">
+      <div class="badge">Production Handover Document</div>
+      <h1>ZEENAT KURESHI</h1>
+      <div class="subtitle">Official Website (ZeenatKureshi.com) — Pre-Launch Asset & Credentials Checklist</div>
+    </div>
+
+    <div class="meta-grid">
+      <div class="meta-item">
+        <strong>Target Domain</strong>
+        ZeenatKureshi.com
+      </div>
+      <div class="meta-item">
+        <strong>Platform Release</strong>
+        v1.0 (Production Release)
+      </div>
+      <div class="meta-item">
+        <strong>Document Status</strong>
+        Ready for Asset Sign-off
+      </div>
+    </div>
+
+    <div class="intro-box">
+      The bespoke development of <strong>ZeenatKureshi.com</strong> is complete, featuring executive black, gold, and white styling, full mobile responsiveness, bespoke vertical navigation (Cinema & Media, GCC–India Trade, and Women’s Leadership), WhatsApp direct desk, and structured inquiry funnels. Please provide the items checked below to enable final live domain deployment.
+    </div>
+
+    <!-- 1. OFFICIAL COMMUNICATION CHANNELS -->
+    <div class="section-title">
+      <span>1. Executive Contact & Communication Channels</span>
+      <span class="number">SECTION 01</span>
+    </div>
+    <ul class="check-list">
+      <li class="check-item">
+        <div class="check-box"></div>
+        <div class="item-content">
+          <strong>WhatsApp Executive Hotline Number</strong>
+          <div class="item-desc">Exact international phone number for the floating WhatsApp Direct Desk (e.g., +971 5X XXX XXXX or +91 9X XXXX XXXX).</div>
+          <div class="fill-box">Provided Number: ________________________________________________________________</div>
+        </div>
+      </li>
+      <li class="check-item">
+        <div class="check-box"></div>
+        <div class="item-content">
+          <strong>Official Receiving Email Inboxes</strong>
+          <div class="item-desc">Inboxes designated to receive incoming inquiries from the Diplomatic Secretariat, Trade Corridors, and Media Kit requests.</div>
+          <div class="fill-box">Primary Secretariat Email: _____________________________________________________</div>
+        </div>
+      </li>
+      <li class="check-item">
+        <div class="check-box"></div>
+        <div class="item-content">
+          <strong>Chancery / Office Address of Record</strong>
+          <div class="item-desc">Official diplomatic, corporate, or state office address to display in the contact section and legal footer.</div>
+          <div class="fill-box">Office Address: _________________________________________________________________</div>
+        </div>
+      </li>
+    </ul>
+
+    <!-- 2. HIGH RESOLUTION PHOTOGRAPHY & PRESS -->
+    <div class="section-title">
+      <span>2. Original Photography & Media Assets</span>
+      <span class="number">SECTION 02</span>
+    </div>
+    <ul class="check-list">
+      <li class="check-item">
+        <div class="check-box"></div>
+        <div class="item-content">
+          <strong>Home Hero Studio Portrait (1–2 High-Res Files)</strong>
+          <div class="item-desc">Editorial studio portrait for the main Home screen banner (portrait orientation or wide executive shot).</div>
+          <div class="fill-box">Asset File / Cloud Drive Link: ___________________________________________________</div>
+        </div>
+      </li>
+      <li class="check-item">
+        <div class="check-box"></div>
+        <div class="item-content">
+          <strong>Biography & Leadership Gallery (3–5 Photos)</strong>
+          <div class="item-desc">Images showing bilateral trade summits, Cannes / international film events, and Women Cell conferences.</div>
+          <div class="fill-box">Drive Link / Reference: _______________________________________________________</div>
+        </div>
+      </li>
+      <li class="check-item">
+        <div class="check-box"></div>
+        <div class="item-content">
+          <strong>Televised Video Interview Embeds (2–4 YouTube URLs)</strong>
+          <div class="item-desc">YouTube links of national/international interviews (CNBC, Gulf News, Times of India, etc.).</div>
+          <div class="fill-box">YouTube Video Links: ___________________________________________________________</div>
+        </div>
+      </li>
+      <li class="check-item">
+        <div class="check-box"></div>
+        <div class="item-content">
+          <strong>Official Media Kit & Biography PDF</strong>
+          <div class="item-desc">The official downloadable PDF one-sheet or corporate profile for journalists and delegates.</div>
+          <div class="fill-box">File Attached / Provided: [ &nbsp; ] Yes &nbsp;&nbsp; [ &nbsp; ] To Follow via Email</div>
+        </div>
+      </li>
+    </ul>
+
+    <!-- 3. VERIFIED SOCIAL REGISTRY PROFILES -->
+    <div class="section-title">
+      <span>3. Official Social & Industry Profiles</span>
+      <span class="number">SECTION 03</span>
+    </div>
+    <ul class="check-list">
+      <li class="check-item">
+        <div class="check-box"></div>
+        <div class="item-content">
+          <strong>LinkedIn Executive Profile URL</strong>
+          <div class="fill-box">URL: __________________________________________________________________________</div>
+        </div>
+      </li>
+      <li class="check-item">
+        <div class="check-box"></div>
+        <div class="item-content">
+          <strong>Instagram Official Handle / URL</strong>
+          <div class="fill-box">Handle/URL: ___________________________________________________________________</div>
+        </div>
+      </li>
+      <li class="check-item">
+        <div class="check-box"></div>
+        <div class="item-content">
+          <strong>IMDb Producer Profile URL (if applicable)</strong>
+          <div class="fill-box">IMDb Link: ____________________________________________________________________</div>
+        </div>
+      </li>
+    </ul>
+
+    <!-- 4. DOMAIN & GO-LIVE AUTHORIZATION -->
+    <div class="section-title">
+      <span>4. Domain & DNS Access (For Going Live)</span>
+      <span class="number">SECTION 04</span>
+    </div>
+    <ul class="check-list">
+      <li class="check-item">
+        <div class="check-box"></div>
+        <div class="item-content">
+          <strong>Domain Registrar Access for ZeenatKureshi.com</strong>
+          <div class="item-desc">Access to DNS settings (GoDaddy, Namecheap, Cloudflare, etc.) to point the domain and issue the free SSL security certificate.</div>
+          <div class="fill-box">Registrar Name & Authorized Delegate: _________________________________________</div>
+        </div>
+      </li>
+      <li class="check-item">
+        <div class="check-box"></div>
+        <div class="item-content">
+          <strong>Google Analytics 4 Measurement ID (Optional)</strong>
+          <div class="item-desc">GA4 ID (format: G-XXXXXXXXXX) to connect live visitor intelligence to your existing Google account.</div>
+          <div class="fill-box">GA4 Measurement ID: ___________________________________________________________</div>
+        </div>
+      </li>
+    </ul>
+
+    <!-- SIGN-OFF SECTION -->
+    <div class="sign-row">
+      <div class="sign-box">
+        <strong>Prepared By (Lead Developer / Consultant):</strong><br><br>
+        Signature: __________________________<br>
+        Date: September 11, 2026
+      </div>
+      <div class="sign-box">
+        <strong>Acknowledged By (Client / Secretariat Representative):</strong><br><br>
+        Signature: __________________________<br>
+        Date: _______________________________
+      </div>
+    </div>
+
+    <div class="footer-note">
+      <span>ZeenatKureshi.com &bull; Executive Sovereign Folio</span>
+      <span>Confidential &bull; All Rights Reserved</span>
+    </div>
+  </div>
+
+</body>
+</html>
