@@ -253,7 +253,7 @@ export const HomeScreen: React.FC<HomeScreenProps> = ({
                 src={getBlurPlaceholderUrl(slide.image)}
                 alt=""
                 aria-hidden="true"
-                loading="eager"
+                loading={index === 0 ? 'eager' : 'lazy'}
                 decoding="async"
                 className={`absolute inset-0 w-full h-full object-cover blur-up-placeholder transition-opacity duration-1000 ease-out z-1 pointer-events-none ${objectPositionClass} ${
                   isLoaded ? 'opacity-0' : 'opacity-85'
@@ -731,6 +731,8 @@ export const HomeScreen: React.FC<HomeScreenProps> = ({
                       src={pillar.image}
                       alt={`${pillar.title} showcase`}
                       fallbackSrc={pillar.fallbackImage}
+                      loading="lazy"
+                      decoding="async"
                       referrerPolicy="no-referrer"
                       containerClassName="w-full h-full"
                       skeletonClassName="bg-[#12100d]"
@@ -886,6 +888,8 @@ export const HomeScreen: React.FC<HomeScreenProps> = ({
               <div className="relative w-full aspect-[4/5] rounded-xl overflow-hidden shadow-2xl bg-[#2a2a2b] border border-[#4d4635]/60 group">
                 <SkeletonImage
                   alt="Zeenat Kureshi Executive Portrait"
+                  loading="lazy"
+                  decoding="async"
                   containerClassName="w-full h-full"
                   showMonogramPlaceholder
                   className="w-full h-full object-cover object-center filter grayscale contrast-110 group-hover:grayscale-0 transition-all duration-700 ease-out scale-100 group-hover:scale-105"

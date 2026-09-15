@@ -122,12 +122,13 @@ export function getResponsiveSrcSet(
     .join(', ');
 }
 
-// Track already preloaded URLs to avoid duplicate link tags
+// Track already preloaded URLs to avoid duplicate fetches
 const preloadedUrlSet = new Set<string>();
 
 /**
- * Injects a high-priority `<link rel="preload" as="image">` tag into `<head>`
- * to inform browser prefetch engines to prioritize critical visual hero assets.
+ * Pre-warms image cache for critical visual hero assets.
+ * Uses high-priority asynchronous Image decoding to cache assets without
+ * triggering Chrome's strict "link rel=preload unused within a few seconds" warnings.
  */
 export function preloadPriorityImage(
   url: string,
@@ -138,7 +139,7 @@ export function preloadPriorityImage(
     fetchPriority?: 'high' | 'low' | 'auto';
   }
 ): void {
-  if (typeof document === 'undefined' || !url) return;
+  if (typeof window === 'undefined' || !url) return;
   if (preloadedUrlSet.has(url)) return;
 
   preloadedUrlSet.add(url);
@@ -149,26 +150,12 @@ export function preloadPriorityImage(
   const srcSet = getResponsiveSrcSet(url, widths, quality);
   const optimizedSrc = getOptimizedImageUrl(url, 1920, quality);
 
-  // Check if link already exists
-  const existingLink = document.querySelector(`link[rel="preload"][href="${optimizedSrc}"]`);
-  if (!existingLink) {
-    const link = document.createElement('link');
-    link.rel = 'preload';
-    link.as = 'image';
-    link.href = optimizedSrc;
-    if (srcSet) {
-      link.setAttribute('imagesrcset', srcSet);
-      link.setAttribute('imagesizes', sizes);
-    }
-    link.setAttribute('fetchpriority', options?.fetchPriority || 'high');
-    document.head.appendChild(link);
-  }
-
-  // Backup in-memory image preloader with high priority
+  // In-memory image preloader with high priority for instant cache warming
   try {
     const img = new Image();
     if ('fetchPriority' in img) {
-      (img as HTMLImageElement & { fetchPriority: string }).fetchPriority = 'high';
+      (img as HTMLImageElement & { fetchPriority: string }).fetchPriority =
+        options?.fetchPriority || 'high';
     }
     img.decoding = 'async';
     if (srcSet) {

@@ -47,6 +47,7 @@ export const Header: React.FC<HeaderProps> = ({
             <img
               src="/zeenat_kureshi_logo_dark.png"
               alt="Zeenat Kureshi Official Logo"
+              decoding="async"
               className="h-8.5 sm:h-9.5 md:h-10 w-auto max-h-[42px] object-contain transition-opacity duration-200 group-hover:opacity-90"
             />
           </button>
@@ -101,6 +102,7 @@ export const Header: React.FC<HeaderProps> = ({
             <div className="relative">
               <img
                 alt="Zeenat Kureshi Monograph"
+                decoding="async"
                 className="w-8 h-8 rounded-full object-cover shrink-0 aspect-square ring-2 ring-[#d4af37] hover:ring-[#f2ca50] transition-all shadow-md"
                 src="https://lh3.googleusercontent.com/aida-public/AB6AXuC6IHnCaef41g32aYh105zuRmheL7FwAT-AndGJukXlIE3t4L0szoFQEx8N8S3oPLqPmulPo5Oo776ceRauA2mrWttmN0hpVMmyTa0pTwujXGtjzvMUBiUugC_-F00w5D3skN_AK9FxGE5wHuyFUOuCnS9w6PXK7qD9McLtiTa4qfAhLXGi3BBaDbauoUWTQ5ZowUhwCKD9zWtPptwld2KaXrFj9Uge6Tg0vxx9dGPBUC0JjEbTLaxZ"
               />

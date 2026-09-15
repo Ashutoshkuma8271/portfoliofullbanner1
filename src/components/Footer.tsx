@@ -54,6 +54,8 @@ export const Footer: React.FC<FooterProps> = ({
               <img
                 src="/zeenat_kureshi_logo_dark.png"
                 alt="Zeenat Kureshi Official Logo"
+                loading="lazy"
+                decoding="async"
                 className="h-9 sm:h-10 md:h-11 w-auto object-contain transition-opacity duration-200"
               />
               <p className="font-['Montserrat'] text-[9px] xs:text-[9.5px] sm:text-[10px] uppercase font-bold tracking-[0.2em] text-[#f2ca50]">

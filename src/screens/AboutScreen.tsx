@@ -145,7 +145,8 @@ export const AboutScreen: React.FC<AboutScreenProps> = ({ onOpenCollaborate }) =
           <div className="relative aspect-[4/5] rounded-2xl overflow-hidden shadow-2xl border border-[#3e3422] bg-[#1c1b1c] group">
             <SkeletonImage
               alt="Zeenat Kureshi Monograph Portrait"
-              priority={true}
+              loading="lazy"
+              decoding="async"
               showMonogramPlaceholder
               containerClassName="w-full h-full"
               fallbackSrc="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&w=1200&q=80"
@@ -248,6 +249,8 @@ export const AboutScreen: React.FC<AboutScreenProps> = ({ onOpenCollaborate }) =
               <SkeletonImage
                 src={photo.image}
                 alt={photo.title}
+                loading="lazy"
+                decoding="async"
                 fallbackSrc={photo.fallbackImage}
                 referrerPolicy="no-referrer"
                 containerClassName="absolute inset-0 w-full h-full"

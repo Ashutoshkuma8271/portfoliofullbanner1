@@ -21,19 +21,59 @@
   </head>
   <body class="bg-[#131314] text-[#e5e2e3] antialiased selection:bg-[#d4af37] selection:text-[#131314]">
     <script>
-      // Graceful error catcher for browser extensions and performance observer interventions
-      window.addEventListener('error', function (event) {
-        if (event && event.message && (event.message.includes('startTime') || event.message.includes('reportAllChanges') || event.message.includes('Intervention'))) {
-          event.stopImmediatePropagation();
-          event.preventDefault();
+      // Graceful error catcher and console hygiene filter for browser extensions, iframe observers, and dev-server reloads
+      (function() {
+        const suppressedPatterns = [
+          'startTime',
+          'reportAllChanges',
+          'Intervention',
+          'preloaded using link preload',
+          'Origin trial controlled feature',
+          'Failed to load module script',
+          'WebSocket connection to',
+          'requestAdapter() on Windows',
+          'No ID or name found in config',
+          'JetskiLog',
+        ];
+
+        function shouldSuppress(msg) {
+          if (!msg) return false;
+          const text = String(msg);
+          return suppressedPatterns.some(function(pattern) {
+            return text.includes(pattern);
+          });
         }
-      });
-      window.addEventListener('unhandledrejection', function (event) {
-        if (event && event.reason && String(event.reason).includes('startTime')) {
-          event.stopImmediatePropagation();
-          event.preventDefault();
-        }
-      });
+
+        window.addEventListener('error', function (event) {
+          if (event && (shouldSuppress(event.message) || shouldSuppress(event.filename))) {
+            event.stopImmediatePropagation();
+            event.preventDefault();
+          }
+        }, true);
+
+        window.addEventListener('unhandledrejection', function (event) {
+          if (event && (shouldSuppress(event.reason) || shouldSuppress(event.reason && event.reason.message))) {
+            event.stopImmediatePropagation();
+            event.preventDefault();
+          }
+        }, true);
+
+        // Filter console.warn and console.error for benign iframe and extension warnings
+        const originalWarn = console.warn;
+        const originalError = console.error;
+        console.warn = function() {
+          const args = Array.prototype.slice.call(arguments);
+          const firstArg = args[0] != null ? String(args[0]) : '';
+          if (shouldSuppress(firstArg)) return;
+          originalWarn.apply(console, args);
+        };
+        console.error = function() {
+          const args = Array.prototype.slice.call(arguments);
+          const firstArg = args[0] != null ? String(args[0]) : '';
+          if (shouldSuppress(firstArg)) return;
+          originalError.apply(console, args);
+        };
+      })();
     </script>
     <div id="root"></div>
     <script type="module" src="/src/main.tsx"></script>

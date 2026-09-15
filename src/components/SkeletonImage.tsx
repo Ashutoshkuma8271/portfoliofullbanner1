@@ -117,7 +117,7 @@ export const SkeletonImage: React.FC<SkeletonImageProps> = ({
           src={blurUrl}
           alt=""
           aria-hidden="true"
-          loading="eager"
+          loading={effectiveLoading}
           decoding="async"
           className={`absolute inset-0 w-full h-full object-cover blur-up-placeholder transition-opacity duration-700 ease-out pointer-events-none z-1 ${
             isLoaded ? 'opacity-0' : 'opacity-85'
