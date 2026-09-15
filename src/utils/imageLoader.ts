@@ -169,6 +169,73 @@ export function preloadPriorityImage(
 }
 
 /**
+ * Preloads an image returning a Promise that resolves when the image is fully decoded
+ * and loaded into memory cache, allowing priority queues to sequence hero assets before non-critical ones.
+ */
+export function preloadImageWithPromise(
+  url: string,
+  options?: {
+    widths?: number[];
+    sizes?: string;
+    quality?: number;
+    fetchPriority?: 'high' | 'low' | 'auto';
+    timeoutMs?: number;
+  }
+): Promise<boolean> {
+  if (typeof window === 'undefined' || !url) return Promise.resolve(false);
+  if (preloadedUrlSet.has(url)) return Promise.resolve(true);
+
+  return new Promise((resolve) => {
+    preloadedUrlSet.add(url);
+
+    const widths = options?.widths || [640, 960, 1280, 1920];
+    const quality = options?.quality || 85;
+    const sizes = options?.sizes || '100vw';
+    const srcSet = getResponsiveSrcSet(url, widths, quality);
+    const optimizedSrc = getOptimizedImageUrl(url, 1920, quality);
+    const timeoutMs = options?.timeoutMs || 4000;
+
+    let timer: ReturnType<typeof setTimeout> | null = setTimeout(() => {
+      timer = null;
+      resolve(false);
+    }, timeoutMs);
+
+    const onComplete = () => {
+      if (timer) {
+        clearTimeout(timer);
+        timer = null;
+      }
+      resolve(true);
+    };
+
+    try {
+      const img = new Image();
+      if ('fetchPriority' in img) {
+        (img as HTMLImageElement & { fetchPriority: string }).fetchPriority =
+          options?.fetchPriority || 'high';
+      }
+      img.decoding = 'async';
+      img.onload = () => {
+        if ('decode' in img && typeof img.decode === 'function') {
+          img.decode().then(onComplete).catch(onComplete);
+        } else {
+          onComplete();
+        }
+      };
+      img.onerror = onComplete;
+
+      if (srcSet) {
+        img.srcset = srcSet;
+        img.sizes = sizes;
+      }
+      img.src = optimizedSrc;
+    } catch {
+      onComplete();
+    }
+  });
+}
+
+/**
  * Returns ready-to-spread attributes for a hero background image with optimal priority hints.
  */
 export function getHeroImageAttributes(

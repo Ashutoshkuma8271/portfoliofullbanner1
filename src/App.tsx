@@ -14,8 +14,8 @@ import { CollaborateModal, CollaborateMode } from './components/CollaborateModal
 import { InvestorLeadModal } from './components/InvestorLeadModal';
 import { MediaKitModal } from './components/MediaKitModal';
 import { AdminCmsModal } from './components/AdminCmsModal';
-import { PageTransitionIndicator } from './components/PageTransitionIndicator';
 import { ScreenLoadingFallback } from './components/ScreenLoadingFallback';
+import { useTabImagePreload } from './hooks/useTabImagePreload';
 
 // Primary landing screen is imported synchronously for instant first paint and crawler/screenshot previews
 import HomeScreen from './screens/HomeScreen';
@@ -46,6 +46,9 @@ export default function App() {
   const [isInvestorLeadOpen, setIsInvestorLeadOpen] = useState(false);
   const [isMediaKitOpen, setIsMediaKitOpen] = useState(false);
   const [isAdminCmsOpen, setIsAdminCmsOpen] = useState(false);
+
+  // Hook to pre-load critical images for active tab while lazy-loading inactive tabs
+  useTabImagePreload(activeTab);
 
   // Ref tracking current tab to prevent redundant state updates on hashchange
   const activeTabRef = useRef<TabId>(activeTab);
@@ -96,8 +99,8 @@ export default function App() {
 
   return (
     <div className="min-h-screen bg-[#131314] text-[#e5e2e3] flex flex-col font-sans selection:bg-[#d4af37] selection:text-[#131314] overflow-x-hidden">
-      {/* Luxury Golden Laser Page Transition Indicator */}
-      <PageTransitionIndicator activeTab={activeTab} />
+      {/* Unified Tactile Film-Grain Overlay with mix-blend-mode: overlay */}
+      <div className="site-grain-overlay" aria-hidden="true" />
 
       {/* Fixed Sticky Header */}
       <Header

@@ -43,7 +43,9 @@ export const Footer: React.FC<FooterProps> = ({
   ];
 
   return (
-    <footer className="w-full bg-[#080706] border-t border-[#262015] pt-12 sm:pt-16 pb-28 sm:pb-12 text-[#c8beaa] overflow-x-hidden">
+    <footer className="relative w-full bg-[#080706] pt-12 sm:pt-16 pb-28 sm:pb-12 text-[#c8beaa] overflow-x-hidden snap-section">
+      {/* Seamless Ambient Light Divider */}
+      <div className="absolute top-0 inset-x-0 gold-gradient-divider-subtle pointer-events-none" />
       <div className="max-w-[1440px] mx-auto px-4 sm:px-6 lg:px-12">
         {/* Main Grid: Responsive 1 col on mobile, balanced 2 cols on tablet, 12 cols on desktop */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-12 gap-8 sm:gap-10 lg:gap-12 mb-12 sm:mb-14">

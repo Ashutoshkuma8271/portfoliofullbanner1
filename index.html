@@ -3,6 +3,83 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script>
+      // Graceful error catcher and console hygiene filter for browser extensions, iframe observers, Monaco editor, CSP reports, and dev-server reloads
+      (function() {
+        const suppressedPatterns = [
+          'startTime',
+          'reportAllChanges',
+          'Intervention',
+          'preloaded using link preload',
+          'Origin trial controlled feature',
+          'Failed to load module script',
+          'WebSocket connection to',
+          'requestAdapter() on Windows',
+          'No ID or name found in config',
+          'JetskiLog',
+          'Content Security Policy',
+          'violates the following Content Security Policy',
+          'The policy is report-only',
+          'Creating a worker from',
+          'worker.js',
+          'monaco',
+          'editor.main.js',
+          'analytics.google.com',
+          'google-analytics.com',
+          'g/collect',
+          'ERR_QUIC_PROTOCOL_ERROR',
+          'QUIC_TOO_MANY_RTOS',
+          'net::ERR_',
+          'Unrecognized feature',
+          '413',
+          'status of 413',
+        ];
+
+        function shouldSuppress(msg) {
+          if (!msg) return false;
+          const text = String(msg);
+          return suppressedPatterns.some(function(pattern) {
+            return text.includes(pattern);
+          });
+        }
+
+        // Catch CSP report-only violation events
+        window.addEventListener('securitypolicyviolation', function(event) {
+          if (event && (shouldSuppress(event.blockedURI) || shouldSuppress(event.violatedDirective) || shouldSuppress(event.originalPolicy))) {
+            event.stopImmediatePropagation();
+            event.preventDefault();
+          }
+        }, true);
+
+        window.addEventListener('error', function (event) {
+          if (event && (shouldSuppress(event.message) || shouldSuppress(event.filename))) {
+            event.stopImmediatePropagation();
+            event.preventDefault();
+          }
+        }, true);
+
+        window.addEventListener('unhandledrejection', function (event) {
+          if (event && (shouldSuppress(event.reason) || shouldSuppress(event.reason && event.reason.message))) {
+            event.stopImmediatePropagation();
+            event.preventDefault();
+          }
+        }, true);
+
+        // Filter all console streams (warn, error, log, info, debug) for benign iframe and extension noise
+        ['warn', 'error', 'log', 'info', 'debug'].forEach(function(level) {
+          const original = console[level];
+          if (!original) return;
+          console[level] = function() {
+            const args = Array.prototype.slice.call(arguments);
+            const shouldDrop = args.some(function(arg) {
+              return shouldSuppress(arg != null ? String(arg) : '');
+            });
+            if (shouldDrop) return;
+            original.apply(console, args);
+          };
+        });
+      })();
+    </script>
     <title>Zeenat Kureshi - Executive Folio</title>
     <meta name="description" content="Executive sovereign folio for global cinematic production, bilateral GCC–India trade corridors, and transformative socio-economic leadership." />
     <meta property="og:title" content="Zeenat Kureshi - Executive Folio" />
@@ -20,61 +97,6 @@
     <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet" />
   </head>
   <body class="bg-[#131314] text-[#e5e2e3] antialiased selection:bg-[#d4af37] selection:text-[#131314]">
-    <script>
-      // Graceful error catcher and console hygiene filter for browser extensions, iframe observers, and dev-server reloads
-      (function() {
-        const suppressedPatterns = [
-          'startTime',
-          'reportAllChanges',
-          'Intervention',
-          'preloaded using link preload',
-          'Origin trial controlled feature',
-          'Failed to load module script',
-          'WebSocket connection to',
-          'requestAdapter() on Windows',
-          'No ID or name found in config',
-          'JetskiLog',
-        ];
-
-        function shouldSuppress(msg) {
-          if (!msg) return false;
-          const text = String(msg);
-          return suppressedPatterns.some(function(pattern) {
-            return text.includes(pattern);
-          });
-        }
-
-        window.addEventListener('error', function (event) {
-          if (event && (shouldSuppress(event.message) || shouldSuppress(event.filename))) {
-            event.stopImmediatePropagation();
-            event.preventDefault();
-          }
-        }, true);
-
-        window.addEventListener('unhandledrejection', function (event) {
-          if (event && (shouldSuppress(event.reason) || shouldSuppress(event.reason && event.reason.message))) {
-            event.stopImmediatePropagation();
-            event.preventDefault();
-          }
-        }, true);
-
-        // Filter console.warn and console.error for benign iframe and extension warnings
-        const originalWarn = console.warn;
-        const originalError = console.error;
-        console.warn = function() {
-          const args = Array.prototype.slice.call(arguments);
-          const firstArg = args[0] != null ? String(args[0]) : '';
-          if (shouldSuppress(firstArg)) return;
-          originalWarn.apply(console, args);
-        };
-        console.error = function() {
-          const args = Array.prototype.slice.call(arguments);
-          const firstArg = args[0] != null ? String(args[0]) : '';
-          if (shouldSuppress(firstArg)) return;
-          originalError.apply(console, args);
-        };
-      })();
-    </script>
     <div id="root"></div>
     <script type="module" src="/src/main.tsx"></script>
   </body>

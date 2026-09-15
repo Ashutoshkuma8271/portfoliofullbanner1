@@ -4,6 +4,7 @@ import { PILLARS } from '../data/folioData';
 import { CollaborateMode } from '../components/CollaborateModal';
 import { getHeroImageAttributes, preloadPriorityImage, getBlurPlaceholderUrl } from '../utils/imageLoader';
 import { SkeletonImage } from '../components/SkeletonImage';
+import { useParallaxBackgrounds } from '../hooks/useParallaxBackgrounds';
 import {
   ArrowRight,
   Lock,
@@ -46,6 +47,9 @@ export const HomeScreen: React.FC<HomeScreenProps> = ({
   onOpenCollaborate,
   onOpenVipPortal,
 }) => {
+  // Activate subtle, high-performance parallax translation on atmospheric background imagery
+  useParallaxBackgrounds(0.12);
+
   const [currentSlide, setCurrentSlide] = useState(0);
   const [isPlaying, setIsPlaying] = useState(true);
   const [isPaused, setIsPaused] = useState(false);
@@ -207,7 +211,7 @@ export const HomeScreen: React.FC<HomeScreenProps> = ({
     <div className="flex flex-col w-full text-[#e5e2e3] overflow-x-hidden animate-page-enter">
       {/* SECTION 1: IMMERSIVE 4-SLIDE CINEMATIC HERO BANNER (RESPONSIVE ON ALL SCREENS) */}
       <section
-        className="relative w-full min-h-[calc(100svh-56px)] sm:min-h-[calc(100svh-64px)] pt-4 sm:pt-8 pb-10 sm:pb-16 flex flex-col justify-end overflow-hidden bg-[#070707] select-none"
+        className="relative w-full min-h-[calc(100svh-56px)] sm:min-h-[calc(100svh-64px)] pt-4 sm:pt-8 pb-10 sm:pb-16 flex flex-col justify-end overflow-hidden bg-[#070707] select-none snap-section"
         aria-label="Cinematic Hero Banner"
         onMouseEnter={() => setIsPaused(true)}
         onMouseLeave={() => setIsPaused(false)}
@@ -507,13 +511,40 @@ export const HomeScreen: React.FC<HomeScreenProps> = ({
             })}
           </div>
         </div>
+
+        {/* Seamless bottom vertical gradient fade from Hero into Sovereign Trust Metrics */}
+        <div className="absolute inset-x-0 bottom-0 h-20 sm:h-28 bg-gradient-to-t from-[#090807] via-[#090807]/70 to-transparent z-15 pointer-events-none" />
       </section>
 
-      {/* DEDICATED SOVEREIGN TRUST METRICS BAR (FULLY RESPONSIVE) */}
-      <section className="w-full bg-[#0c0b0a] border-y border-[#2e271a] py-6 sm:py-8">
-        <div className="max-w-[1440px] mx-auto px-4 sm:px-6 lg:px-12">
+      {/* DEDICATED SOVEREIGN TRUST METRICS BAR (SEAMLESS ATMOSPHERIC FLOW) */}
+      <section className="relative w-full bg-gradient-to-b from-[#090807] via-[#0c0b0a] to-[#0e0d0b] py-8 sm:py-10 overflow-hidden snap-section">
+        {/* Carefully Selected Low-Opacity Architectural Geometry Background with Parallax */}
+        <div className="absolute inset-0 pointer-events-none overflow-hidden z-0 parallax-bg-container">
+          <img
+            src="https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?auto=format&fit=crop&w=2000&q=80"
+            alt=""
+            aria-hidden="true"
+            loading="lazy"
+            decoding="async"
+            referrerPolicy="no-referrer"
+            className="parallax-bg w-full h-full object-cover object-center opacity-[0.065] grayscale contrast-125 mix-blend-luminosity filter section-mask-fade"
+          />
+          <div className="absolute inset-0 bg-gradient-to-r from-[#090807] via-transparent to-[#090807]"></div>
+          <div className="absolute inset-0 bg-gradient-to-b from-[#090807] via-transparent to-[#0e0d0b]"></div>
+          <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[160px] bg-[#f2ca50]/5 rounded-full blur-[100px]"></div>
+        </div>
+
+        {/* Seamless Top and Bottom Ambient Light Dividers (Eliminating Hard Borders) */}
+        <div className="absolute top-0 inset-x-0 gold-gradient-divider pointer-events-none z-10" />
+        <div className="absolute bottom-0 inset-x-0 gold-gradient-divider-subtle pointer-events-none z-10" />
+
+        {/* Top & Bottom Seamless Vertical Blend Masks */}
+        <div className="absolute inset-x-0 top-0 h-10 bg-gradient-to-b from-[#090807] to-transparent pointer-events-none z-10" />
+        <div className="absolute inset-x-0 bottom-0 h-10 bg-gradient-to-t from-[#0e0d0b] to-transparent pointer-events-none z-10" />
+
+        <div className="relative z-1 max-w-[1440px] mx-auto px-4 sm:px-6 lg:px-12">
           <div className="grid grid-cols-2 md:grid-cols-4 gap-4 sm:gap-6 md:gap-10">
-            <div className="space-y-1 text-center md:text-left border-r border-[#2e271a] pr-2 sm:pr-4">
+            <div className="space-y-1 text-center md:text-left border-r border-[#3a3222]/50 pr-2 sm:pr-4">
               <span className="font-['Cinzel'] text-[22px] sm:text-[28px] lg:text-[34px] text-[#f2ca50] block font-semibold leading-none">
                 $450M+
               </span>
@@ -521,7 +552,7 @@ export const HomeScreen: React.FC<HomeScreenProps> = ({
                 Bilateral Facilitation
               </span>
             </div>
-            <div className="space-y-1 text-center md:text-left md:border-r border-[#2e271a] pr-2 sm:pr-4">
+            <div className="space-y-1 text-center md:text-left md:border-r border-[#3a3222]/50 pr-2 sm:pr-4">
               <span className="font-['Cinzel'] text-[22px] sm:text-[28px] lg:text-[34px] text-[#e9c176] block font-semibold leading-none">
                 14+
               </span>
@@ -529,7 +560,7 @@ export const HomeScreen: React.FC<HomeScreenProps> = ({
                 Global Screen Projects
               </span>
             </div>
-            <div className="space-y-1 text-center md:text-left border-r border-[#2e271a] pr-2 sm:pr-4 pt-2 md:pt-0">
+            <div className="space-y-1 text-center md:text-left border-r border-[#3a3222]/50 pr-2 sm:pr-4 pt-2 md:pt-0">
               <span className="font-['Cinzel'] text-[22px] sm:text-[28px] lg:text-[34px] text-[#f2ca50] block font-semibold leading-none">
                 120K+
               </span>
@@ -549,9 +580,30 @@ export const HomeScreen: React.FC<HomeScreenProps> = ({
         </div>
       </section>
 
-      {/* SECTION 2: FEATURED MEDIA LOGOS (RESPONSIVE GRID) */}
-      <section className="w-full bg-gradient-to-b from-[#11100d] via-[#161411] to-[#0e0d0b] py-12 sm:py-16 border-y border-[#d4af37]/35 relative shadow-inner">
-        <div className="max-w-[1440px] mx-auto px-4 sm:px-6 lg:px-12">
+      {/* SECTION 2: FEATURED MEDIA LOGOS (RESPONSIVE GRID WITH SEAMLESS ATMOSPHERIC FLOW) */}
+      <section className="relative w-full bg-gradient-to-b from-[#0e0d0b] via-[#14120e] to-[#110f0c] py-14 sm:py-20 overflow-hidden snap-section" id="media-logos">
+        {/* Carefully Selected Low-Opacity Press Conclave & Festival Gala Background with Parallax */}
+        <div className="absolute inset-0 pointer-events-none overflow-hidden z-0 parallax-bg-container">
+          <img
+            src="https://images.unsplash.com/photo-1492684223066-81342ee5ff30?auto=format&fit=crop&w=2000&q=80"
+            alt=""
+            aria-hidden="true"
+            loading="lazy"
+            decoding="async"
+            referrerPolicy="no-referrer"
+            className="parallax-bg w-full h-full object-cover object-center opacity-[0.055] grayscale contrast-125 mix-blend-screen filter section-mask-fade"
+          />
+          <div className="absolute inset-0 bg-gradient-to-b from-[#0e0d0b] via-transparent to-[#110f0c]"></div>
+          <div className="absolute top-0 right-1/4 w-[500px] h-[350px] bg-[#f2ca50]/4 rounded-full blur-[140px]"></div>
+          <div className="absolute -left-20 bottom-0 w-[450px] h-[300px] bg-[#d4af37]/3 rounded-full blur-[120px]"></div>
+        </div>
+
+        {/* Seamless Top & Bottom Vertical Gradient Blend Masks */}
+        <div className="absolute inset-x-0 top-0 h-16 sm:h-24 bg-gradient-to-b from-[#0e0d0b] to-transparent pointer-events-none z-10" />
+        <div className="absolute inset-x-0 bottom-0 h-16 sm:h-24 bg-gradient-to-t from-[#110f0c] to-transparent pointer-events-none z-10" />
+        <div className="absolute bottom-0 inset-x-0 gold-gradient-divider-subtle pointer-events-none z-10" />
+
+        <div className="relative z-1 max-w-[1440px] mx-auto px-4 sm:px-6 lg:px-12">
           <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-3 sm:gap-4 mb-8 sm:mb-10">
             <div className="space-y-1.5">
               <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#f2ca50]/10 border border-[#f2ca50]/40 text-[#f2ca50] font-['Montserrat'] text-[9px] sm:text-[10px] font-bold uppercase tracking-[0.22em]">
@@ -674,14 +726,32 @@ export const HomeScreen: React.FC<HomeScreenProps> = ({
         </div>
       </section>
 
-      {/* SECTION 3: KEY VERTICALS (TRADE | MEDIA | WOMEN LEADERSHIP | INVESTMENT ADVISORY) */}
-      <section className="w-full bg-[#110f0c] py-20 lg:py-28 relative overflow-hidden" id="verticals">
-        {/* Subtle Ambient Radial Glow */}
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[500px] bg-[#f2ca50]/5 rounded-full blur-[180px] pointer-events-none"></div>
+      {/* SECTION 3: KEY VERTICALS (TRADE | MEDIA | WOMEN LEADERSHIP | INVESTMENT ADVISORY - SEAMLESS ATMOSPHERIC FLOW) */}
+      <section className="relative w-full bg-gradient-to-b from-[#110f0c] via-[#13110e] to-[#0e0e0f] py-20 lg:py-28 overflow-hidden snap-section" id="verticals">
+        {/* Carefully Selected Low-Opacity Sovereign Maritime Trade & Skyline Background with Parallax */}
+        <div className="absolute inset-0 pointer-events-none overflow-hidden z-0 parallax-bg-container">
+          <img
+            src="https://images.unsplash.com/photo-1512453979798-5ea266f8880c?auto=format&fit=crop&w=2000&q=80"
+            alt=""
+            aria-hidden="true"
+            loading="lazy"
+            decoding="async"
+            referrerPolicy="no-referrer"
+            className="parallax-bg w-full h-full object-cover object-[center_35%] opacity-[0.055] grayscale contrast-120 mix-blend-luminosity filter section-mask-fade"
+          />
+          <div className="absolute inset-0 bg-gradient-to-b from-[#110f0c] via-transparent to-[#0e0e0f]"></div>
+          <div className="absolute top-1/3 left-1/2 -translate-x-1/2 w-[900px] h-[550px] bg-[#f2ca50]/5 rounded-full blur-[180px]"></div>
+          <div className="absolute bottom-10 right-10 w-[500px] h-[350px] bg-[#d4af37]/4 rounded-full blur-[140px]"></div>
+        </div>
 
-        <div className="relative z-10 max-w-[1440px] mx-auto px-4 sm:px-6 lg:px-12">
+        {/* Seamless Top & Bottom Vertical Gradient Blend Masks */}
+        <div className="absolute inset-x-0 top-0 h-20 sm:h-28 bg-gradient-to-b from-[#110f0c] to-transparent pointer-events-none z-10" />
+        <div className="absolute inset-x-0 bottom-0 h-20 sm:h-28 bg-gradient-to-t from-[#0e0e0f] to-transparent pointer-events-none z-10" />
+        <div className="absolute bottom-0 inset-x-0 gold-gradient-divider-subtle pointer-events-none z-10" />
+
+        <div className="relative z-1 max-w-[1440px] mx-auto px-4 sm:px-6 lg:px-12">
           {/* Section Header with Refined Responsive Luxury Typography */}
-          <div className="flex flex-col lg:flex-row justify-between items-start lg:items-end gap-5 mb-10 lg:mb-14 pb-6 border-b border-[#2e271a]">
+          <div className="flex flex-col lg:flex-row justify-between items-start lg:items-end gap-5 mb-10 lg:mb-14 pb-6 border-b border-[#d4af37]/15">
             <div className="space-y-2.5 max-w-2xl">
               <div className="inline-flex items-center gap-2 px-3 py-1 bg-[#1c1913] border border-[#d4af37]/40 text-[#f2ca50] text-[9px] sm:text-[10px] font-bold uppercase tracking-[0.22em] rounded-full shadow-sm">
                 <Sparkles className="w-3 h-3 text-[#f2ca50]" />
@@ -824,9 +894,30 @@ export const HomeScreen: React.FC<HomeScreenProps> = ({
         </div>
       </section>
 
-      {/* SECTION 4: LEADERSHIP SPOTLIGHT & EMBOSSED STATEMENT */}
-      <section className="w-full bg-[#0e0e0f] py-24 relative overflow-hidden border-y border-[#4d4635]/30">
-        <div className="max-w-[1440px] mx-auto px-4 sm:px-6 lg:px-12">
+      {/* SECTION 4: LEADERSHIP SPOTLIGHT & EMBOSSED STATEMENT (SEAMLESS ATMOSPHERIC FLOW) */}
+      <section className="relative w-full bg-gradient-to-b from-[#0e0e0f] via-[#101011] to-[#0c0b09] py-24 lg:py-28 overflow-hidden snap-section" id="leadership">
+        {/* Carefully Selected Low-Opacity Diplomatic Chancery Hall & Neoclassical Colonnade Background with Parallax */}
+        <div className="absolute inset-0 pointer-events-none overflow-hidden z-0 parallax-bg-container">
+          <img
+            src="https://images.unsplash.com/photo-1541888946425-d0fbb18086f6?auto=format&fit=crop&w=2000&q=80"
+            alt=""
+            aria-hidden="true"
+            loading="lazy"
+            decoding="async"
+            referrerPolicy="no-referrer"
+            className="parallax-bg w-full h-full object-cover object-center opacity-[0.06] grayscale contrast-125 mix-blend-luminosity filter section-mask-fade"
+          />
+          <div className="absolute inset-0 bg-gradient-to-b from-[#0e0e0f] via-transparent to-[#0c0b09]"></div>
+          <div className="absolute top-1/4 left-1/4 w-[650px] h-[450px] bg-[#f2ca50]/6 rounded-full blur-[160px]"></div>
+          <div className="absolute -right-20 bottom-1/4 w-[500px] h-[400px] bg-[#e9c176]/5 rounded-full blur-[140px]"></div>
+        </div>
+
+        {/* Seamless Top & Bottom Vertical Gradient Blend Masks */}
+        <div className="absolute inset-x-0 top-0 h-20 sm:h-28 bg-gradient-to-b from-[#0e0e0f] to-transparent pointer-events-none z-10" />
+        <div className="absolute inset-x-0 bottom-0 h-20 sm:h-28 bg-gradient-to-t from-[#0c0b09] to-transparent pointer-events-none z-10" />
+        <div className="absolute bottom-0 inset-x-0 gold-gradient-divider-subtle pointer-events-none z-10" />
+
+        <div className="relative z-1 max-w-[1440px] mx-auto px-4 sm:px-6 lg:px-12">
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-16 items-center">
             {/* Sovereign Statement Text */}
             <div className="lg:col-span-7 space-y-6">
@@ -917,10 +1008,26 @@ export const HomeScreen: React.FC<HomeScreenProps> = ({
         </div>
       </section>
 
-      {/* SECTION 5: DIRECT DIPLOMATIC CHANCERY PROTOCOL ACCESS */}
-      <section className="w-full bg-[#0c0b09] py-16 sm:py-24 relative overflow-hidden" id="connect">
-        {/* Ambient Gold Radial Glow */}
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[700px] h-[450px] bg-[#f2ca50]/5 rounded-full blur-[160px] pointer-events-none"></div>
+      {/* SECTION 5: DIRECT DIPLOMATIC CHANCERY PROTOCOL ACCESS (SEAMLESS ATMOSPHERIC FLOW) */}
+      <section className="relative w-full bg-gradient-to-b from-[#0c0b09] via-[#0f0e0b] to-[#080706] py-18 sm:py-24 lg:py-28 overflow-hidden snap-section" id="connect">
+        {/* Carefully Selected Low-Opacity Sovereign Chancery Corridors Background with Parallax */}
+        <div className="absolute inset-0 pointer-events-none overflow-hidden z-0 parallax-bg-container">
+          <img
+            src="https://images.unsplash.com/photo-1587474260584-136574528ed5?auto=format&fit=crop&w=2000&q=80"
+            alt=""
+            aria-hidden="true"
+            loading="lazy"
+            decoding="async"
+            referrerPolicy="no-referrer"
+            className="parallax-bg w-full h-full object-cover object-center opacity-[0.065] grayscale contrast-120 mix-blend-luminosity filter section-mask-fade"
+          />
+          <div className="absolute inset-0 bg-gradient-to-b from-[#0c0b09] via-transparent to-[#080706]"></div>
+          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[850px] h-[550px] bg-[#f2ca50]/5 rounded-full blur-[180px]"></div>
+        </div>
+
+        {/* Seamless Top & Bottom Vertical Gradient Blend Masks */}
+        <div className="absolute inset-x-0 top-0 h-20 sm:h-28 bg-gradient-to-b from-[#0c0b09] to-transparent pointer-events-none z-10" />
+        <div className="absolute inset-x-0 bottom-0 h-20 sm:h-28 bg-gradient-to-t from-[#080706] to-transparent pointer-events-none z-10" />
 
         <div className="relative z-10 max-w-[1440px] mx-auto px-4 sm:px-6 lg:px-12">
           <div className="bg-gradient-to-b from-[#181511]/95 to-[#100e0b]/95 rounded-2xl p-6 sm:p-10 lg:p-14 shadow-2xl border border-[#3e3422] relative overflow-hidden">
