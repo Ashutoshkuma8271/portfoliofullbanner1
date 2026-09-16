@@ -383,10 +383,101 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .parallax-bg {
+  .parallax-bg,
+  .parallax-element {
     transform: none !important;
   }
 }
+
+/* ==========================================================================
+   EDITORIAL FLUID TYPOGRAPHY & REFINED TRACKING SYSTEM
+   Mathematically balanced scales using responsive clamp()
+   ========================================================================== */
+.fluid-headline {
+  font-size: clamp(2rem, 4.2vw + 0.6rem, 3.85rem);
+  line-height: 1.12;
+  letter-spacing: -0.02em;
+}
+
+.fluid-title {
+  font-size: clamp(1.45rem, 2.5vw + 0.4rem, 2.35rem);
+  line-height: 1.22;
+  letter-spacing: -0.015em;
+}
+
+.fluid-subhead {
+  font-size: clamp(0.72rem, 0.4vw + 0.55rem, 0.85rem);
+  letter-spacing: 0.22em;
+}
+
+.fluid-lead {
+  font-size: clamp(0.95rem, 0.8vw + 0.65rem, 1.15rem);
+  line-height: 1.68;
+}
+
+.fluid-body {
+  font-size: clamp(0.82rem, 0.4vw + 0.65rem, 0.95rem);
+  line-height: 1.62;
+}
+
+/* ==========================================================================
+   SEAMLESS MULTI-STOP VERTICAL SECTION FADE & GRADIENT BLEND UTILITIES
+   Eliminates harsh horizontal cutoffs between major sections
+   ========================================================================== */
+.section-blend-top {
+  background: linear-gradient(
+    to bottom,
+    #090807 0%,
+    rgba(9, 8, 7, 0.88) 30%,
+    rgba(9, 8, 7, 0.45) 65%,
+    rgba(9, 8, 7, 0.12) 85%,
+    transparent 100%
+  );
+}
+
+.section-blend-bottom {
+  background: linear-gradient(
+    to top,
+    #0c0b09 0%,
+    rgba(12, 11, 9, 0.88) 30%,
+    rgba(12, 11, 9, 0.45) 65%,
+    rgba(12, 11, 9, 0.12) 85%,
+    transparent 100%
+  );
+}
+
+.parallax-element {
+  will-change: transform;
+  transform: translate3d(0, 0, 0);
+  pointer-events: none;
+}
+
+/* ==========================================================================
+   SYSTEM & MANUAL REDUCED-MOTION ACCESSIBILITY OVERRIDES
+   ========================================================================== */
+@media (prefers-reduced-motion: reduce) {
+  .parallax-bg,
+  .parallax-element {
+    transform: none !important;
+    transition: none !important;
+  }
+}
+
+html.force-reduced-motion *,
+html.force-reduced-motion *::before,
+html.force-reduced-motion *::after {
+  animation-duration: 0.001ms !important;
+  animation-iteration-count: 1 !important;
+  transition-duration: 0.001ms !important;
+  scroll-behavior: auto !important;
+}
+
+html.force-reduced-motion .parallax-bg,
+html.force-reduced-motion .parallax-element {
+  transform: none !important;
+  transition: none !important;
+}
+
 
 
 

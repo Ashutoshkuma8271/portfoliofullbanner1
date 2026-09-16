@@ -150,7 +150,7 @@ export const AboutScreen: React.FC<AboutScreenProps> = ({ onOpenCollaborate }) =
               showMonogramPlaceholder
               containerClassName="w-full h-full"
               fallbackSrc="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&w=1200&q=80"
-              className="w-full h-full object-cover object-center filter grayscale contrast-110 group-hover:scale-105 transition-transform duration-700"
+              className="w-full h-full object-cover object-[center_18%] sm:object-[center_22%] lg:object-center filter grayscale contrast-110 group-hover:scale-105 transition-transform duration-700"
               src="https://lh3.googleusercontent.com/aida-public/AB6AXuC6IHnCaef41g32aYh105zuRmheL7FwAT-AndGJukXlIE3t4L0szoFQEx8N8S3oPLqPmulPo5Oo776ceRauA2mrWttmN0hpVMmyTa0pTwujXGtjzvMUBiUugC_-F00w5D3skN_AK9FxGE5wHuyFUOuCnS9w6PXK7qD9McLtiTa4qfAhLXGi3BBaDbauoUWTQ5ZowUhwCKD9zWtPptwld2KaXrFj9Uge6Tg0vxx9dGPBUC0JjEbTLaxZ"
             />
             <div className="absolute inset-0 bg-gradient-to-t from-[#0e0e0f] via-transparent to-transparent pointer-events-none"></div>

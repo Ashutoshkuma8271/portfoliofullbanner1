@@ -199,7 +199,7 @@ export const WomenLeadershipScreen: React.FC<WomenLeadershipScreenProps> = ({ on
                     src={event.image}
                     alt={event.title}
                     containerClassName="w-full h-full"
-                    className="w-full h-full object-cover filter brightness-[0.85] contrast-105 group-hover:scale-105 transition-transform duration-500"
+                    className="w-full h-full object-cover object-[center_25%] sm:object-center filter brightness-[0.85] contrast-105 group-hover:scale-105 transition-transform duration-500"
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-[#1c1b1c] via-transparent to-transparent pointer-events-none z-10"></div>
                   <div className="absolute top-3 left-3 px-2.5 py-0.5 rounded bg-[#0a0907]/80 backdrop-blur-md border border-[#f2ca50]/40 text-[#f2ca50] font-sans text-[9px] font-bold tracking-widest uppercase z-10">

@@ -172,7 +172,7 @@ export const MediaPressScreen: React.FC<MediaPressScreenProps> = ({ onOpenMediaK
                 alt={selectedFilm.title}
                 priority={true}
                 containerClassName="w-full h-full"
-                className="w-full h-full object-cover filter brightness-95"
+                className="w-full h-full object-cover object-[center_35%] filter brightness-95"
               />
               <div className="absolute inset-0 bg-gradient-to-t from-[#181613] via-transparent to-transparent pointer-events-none"></div>
               <div className="absolute top-4 left-4 px-3 py-1.5 bg-[#0b0a08]/90 backdrop-blur-md border border-[#f2ca50]/50 text-[#f2ca50] font-sans text-[10px] font-bold uppercase tracking-widest rounded shadow-md flex items-center gap-2 z-10">

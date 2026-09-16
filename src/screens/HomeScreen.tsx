@@ -4,7 +4,7 @@ import { PILLARS } from '../data/folioData';
 import { CollaborateMode } from '../components/CollaborateModal';
 import { getHeroImageAttributes, preloadPriorityImage, getBlurPlaceholderUrl } from '../utils/imageLoader';
 import { SkeletonImage } from '../components/SkeletonImage';
-import { useParallaxBackgrounds } from '../hooks/useParallaxBackgrounds';
+import { useScrollParallax } from '../hooks/useScrollParallax';
 import {
   ArrowRight,
   Lock,
@@ -47,8 +47,8 @@ export const HomeScreen: React.FC<HomeScreenProps> = ({
   onOpenCollaborate,
   onOpenVipPortal,
 }) => {
-  // Activate subtle, high-performance parallax translation on atmospheric background imagery
-  useParallaxBackgrounds(0.12);
+  // Activate subtle, high-performance lerp-smoothed parallax translation on atmospheric background imagery
+  useScrollParallax(0.10);
 
   const [currentSlide, setCurrentSlide] = useState(0);
   const [isPlaying, setIsPlaying] = useState(true);
@@ -232,9 +232,13 @@ export const HomeScreen: React.FC<HomeScreenProps> = ({
 
           const objectPositionClass =
             slide.id === 'sovereign'
-              ? 'object-[center_15%] sm:object-center'
+              ? 'object-[center_18%] sm:object-[center_22%] lg:object-center'
+              : slide.id === 'media'
+              ? 'object-[center_35%] sm:object-center'
+              : slide.id === 'trade'
+              ? 'object-[center_30%] sm:object-[center_35%]'
               : slide.id === 'leadership'
-              ? 'object-[center_20%] sm:object-center'
+              ? 'object-[center_18%] sm:object-[center_25%] lg:object-center'
               : 'object-center';
 
           return (
@@ -264,7 +268,7 @@ export const HomeScreen: React.FC<HomeScreenProps> = ({
                 }`}
               />
 
-              {/* 3. The Full High-Resolution Cinematic Hero Slide with 'loading=lazy' Strategy for non-initial slides */}
+              {/* 3. The Full High-Resolution Cinematic Hero Slide with Priority-Hinting Mechanism for Main Hero (index === 0) */}
               <img
                 {...heroImgAttrs}
                 loading={index === 0 ? 'eager' : 'lazy'}
@@ -513,7 +517,7 @@ export const HomeScreen: React.FC<HomeScreenProps> = ({
         </div>
 
         {/* Seamless bottom vertical gradient fade from Hero into Sovereign Trust Metrics */}
-        <div className="absolute inset-x-0 bottom-0 h-20 sm:h-28 bg-gradient-to-t from-[#090807] via-[#090807]/70 to-transparent z-15 pointer-events-none" />
+        <div className="absolute inset-x-0 bottom-0 h-24 sm:h-32 bg-gradient-to-t from-[#090807] via-[#090807]/80 via-[#090807]/35 to-transparent z-15 pointer-events-none" />
       </section>
 
       {/* DEDICATED SOVEREIGN TRUST METRICS BAR (SEAMLESS ATMOSPHERIC FLOW) */}
@@ -531,7 +535,7 @@ export const HomeScreen: React.FC<HomeScreenProps> = ({
           />
           <div className="absolute inset-0 bg-gradient-to-r from-[#090807] via-transparent to-[#090807]"></div>
           <div className="absolute inset-0 bg-gradient-to-b from-[#090807] via-transparent to-[#0e0d0b]"></div>
-          <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[160px] bg-[#f2ca50]/5 rounded-full blur-[100px]"></div>
+          <div className="parallax-element absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[160px] bg-[#f2ca50]/5 rounded-full blur-[100px]"></div>
         </div>
 
         {/* Seamless Top and Bottom Ambient Light Dividers (Eliminating Hard Borders) */}
@@ -539,8 +543,8 @@ export const HomeScreen: React.FC<HomeScreenProps> = ({
         <div className="absolute bottom-0 inset-x-0 gold-gradient-divider-subtle pointer-events-none z-10" />
 
         {/* Top & Bottom Seamless Vertical Blend Masks */}
-        <div className="absolute inset-x-0 top-0 h-10 bg-gradient-to-b from-[#090807] to-transparent pointer-events-none z-10" />
-        <div className="absolute inset-x-0 bottom-0 h-10 bg-gradient-to-t from-[#0e0d0b] to-transparent pointer-events-none z-10" />
+        <div className="absolute inset-x-0 top-0 h-12 sm:h-16 bg-gradient-to-b from-[#090807] via-[#090807]/75 to-transparent pointer-events-none z-10" />
+        <div className="absolute inset-x-0 bottom-0 h-12 sm:h-16 bg-gradient-to-t from-[#0e0d0b] via-[#0e0d0b]/75 to-transparent pointer-events-none z-10" />
 
         <div className="relative z-1 max-w-[1440px] mx-auto px-4 sm:px-6 lg:px-12">
           <div className="grid grid-cols-2 md:grid-cols-4 gap-4 sm:gap-6 md:gap-10">
@@ -594,13 +598,13 @@ export const HomeScreen: React.FC<HomeScreenProps> = ({
             className="parallax-bg w-full h-full object-cover object-center opacity-[0.055] grayscale contrast-125 mix-blend-screen filter section-mask-fade"
           />
           <div className="absolute inset-0 bg-gradient-to-b from-[#0e0d0b] via-transparent to-[#110f0c]"></div>
-          <div className="absolute top-0 right-1/4 w-[500px] h-[350px] bg-[#f2ca50]/4 rounded-full blur-[140px]"></div>
-          <div className="absolute -left-20 bottom-0 w-[450px] h-[300px] bg-[#d4af37]/3 rounded-full blur-[120px]"></div>
+          <div className="parallax-element absolute top-0 right-1/4 w-[500px] h-[350px] bg-[#f2ca50]/4 rounded-full blur-[140px]"></div>
+          <div className="parallax-element absolute -left-20 bottom-0 w-[450px] h-[300px] bg-[#d4af37]/3 rounded-full blur-[120px]"></div>
         </div>
 
         {/* Seamless Top & Bottom Vertical Gradient Blend Masks */}
-        <div className="absolute inset-x-0 top-0 h-16 sm:h-24 bg-gradient-to-b from-[#0e0d0b] to-transparent pointer-events-none z-10" />
-        <div className="absolute inset-x-0 bottom-0 h-16 sm:h-24 bg-gradient-to-t from-[#110f0c] to-transparent pointer-events-none z-10" />
+        <div className="absolute inset-x-0 top-0 h-16 sm:h-24 bg-gradient-to-b from-[#0e0d0b] via-[#0e0d0b]/80 to-transparent pointer-events-none z-10" />
+        <div className="absolute inset-x-0 bottom-0 h-16 sm:h-24 bg-gradient-to-t from-[#110f0c] via-[#110f0c]/80 to-transparent pointer-events-none z-10" />
         <div className="absolute bottom-0 inset-x-0 gold-gradient-divider-subtle pointer-events-none z-10" />
 
         <div className="relative z-1 max-w-[1440px] mx-auto px-4 sm:px-6 lg:px-12">
@@ -740,13 +744,13 @@ export const HomeScreen: React.FC<HomeScreenProps> = ({
             className="parallax-bg w-full h-full object-cover object-[center_35%] opacity-[0.055] grayscale contrast-120 mix-blend-luminosity filter section-mask-fade"
           />
           <div className="absolute inset-0 bg-gradient-to-b from-[#110f0c] via-transparent to-[#0e0e0f]"></div>
-          <div className="absolute top-1/3 left-1/2 -translate-x-1/2 w-[900px] h-[550px] bg-[#f2ca50]/5 rounded-full blur-[180px]"></div>
-          <div className="absolute bottom-10 right-10 w-[500px] h-[350px] bg-[#d4af37]/4 rounded-full blur-[140px]"></div>
+          <div className="parallax-element absolute top-1/3 left-1/2 -translate-x-1/2 w-[900px] h-[550px] bg-[#f2ca50]/5 rounded-full blur-[180px]"></div>
+          <div className="parallax-element absolute bottom-10 right-10 w-[500px] h-[350px] bg-[#d4af37]/4 rounded-full blur-[140px]"></div>
         </div>
 
         {/* Seamless Top & Bottom Vertical Gradient Blend Masks */}
-        <div className="absolute inset-x-0 top-0 h-20 sm:h-28 bg-gradient-to-b from-[#110f0c] to-transparent pointer-events-none z-10" />
-        <div className="absolute inset-x-0 bottom-0 h-20 sm:h-28 bg-gradient-to-t from-[#0e0e0f] to-transparent pointer-events-none z-10" />
+        <div className="absolute inset-x-0 top-0 h-20 sm:h-28 bg-gradient-to-b from-[#110f0c] via-[#110f0c]/80 to-transparent pointer-events-none z-10" />
+        <div className="absolute inset-x-0 bottom-0 h-20 sm:h-28 bg-gradient-to-t from-[#0e0e0f] via-[#0e0e0f]/80 to-transparent pointer-events-none z-10" />
         <div className="absolute bottom-0 inset-x-0 gold-gradient-divider-subtle pointer-events-none z-10" />
 
         <div className="relative z-1 max-w-[1440px] mx-auto px-4 sm:px-6 lg:px-12">
@@ -908,13 +912,13 @@ export const HomeScreen: React.FC<HomeScreenProps> = ({
             className="parallax-bg w-full h-full object-cover object-center opacity-[0.06] grayscale contrast-125 mix-blend-luminosity filter section-mask-fade"
           />
           <div className="absolute inset-0 bg-gradient-to-b from-[#0e0e0f] via-transparent to-[#0c0b09]"></div>
-          <div className="absolute top-1/4 left-1/4 w-[650px] h-[450px] bg-[#f2ca50]/6 rounded-full blur-[160px]"></div>
-          <div className="absolute -right-20 bottom-1/4 w-[500px] h-[400px] bg-[#e9c176]/5 rounded-full blur-[140px]"></div>
+          <div className="parallax-element absolute top-1/4 left-1/4 w-[650px] h-[450px] bg-[#f2ca50]/6 rounded-full blur-[160px]"></div>
+          <div className="parallax-element absolute -right-20 bottom-1/4 w-[500px] h-[400px] bg-[#e9c176]/5 rounded-full blur-[140px]"></div>
         </div>
 
         {/* Seamless Top & Bottom Vertical Gradient Blend Masks */}
-        <div className="absolute inset-x-0 top-0 h-20 sm:h-28 bg-gradient-to-b from-[#0e0e0f] to-transparent pointer-events-none z-10" />
-        <div className="absolute inset-x-0 bottom-0 h-20 sm:h-28 bg-gradient-to-t from-[#0c0b09] to-transparent pointer-events-none z-10" />
+        <div className="absolute inset-x-0 top-0 h-20 sm:h-28 bg-gradient-to-b from-[#0e0e0f] via-[#0e0e0f]/80 to-transparent pointer-events-none z-10" />
+        <div className="absolute inset-x-0 bottom-0 h-20 sm:h-28 bg-gradient-to-t from-[#0c0b09] via-[#0c0b09]/80 to-transparent pointer-events-none z-10" />
         <div className="absolute bottom-0 inset-x-0 gold-gradient-divider-subtle pointer-events-none z-10" />
 
         <div className="relative z-1 max-w-[1440px] mx-auto px-4 sm:px-6 lg:px-12">
@@ -1022,12 +1026,12 @@ export const HomeScreen: React.FC<HomeScreenProps> = ({
             className="parallax-bg w-full h-full object-cover object-center opacity-[0.065] grayscale contrast-120 mix-blend-luminosity filter section-mask-fade"
           />
           <div className="absolute inset-0 bg-gradient-to-b from-[#0c0b09] via-transparent to-[#080706]"></div>
-          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[850px] h-[550px] bg-[#f2ca50]/5 rounded-full blur-[180px]"></div>
+          <div className="parallax-element absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[850px] h-[550px] bg-[#f2ca50]/5 rounded-full blur-[180px]"></div>
         </div>
 
         {/* Seamless Top & Bottom Vertical Gradient Blend Masks */}
-        <div className="absolute inset-x-0 top-0 h-20 sm:h-28 bg-gradient-to-b from-[#0c0b09] to-transparent pointer-events-none z-10" />
-        <div className="absolute inset-x-0 bottom-0 h-20 sm:h-28 bg-gradient-to-t from-[#080706] to-transparent pointer-events-none z-10" />
+        <div className="absolute inset-x-0 top-0 h-20 sm:h-28 bg-gradient-to-b from-[#0c0b09] via-[#0c0b09]/80 to-transparent pointer-events-none z-10" />
+        <div className="absolute inset-x-0 bottom-0 h-20 sm:h-28 bg-gradient-to-t from-[#080706] via-[#080706]/80 to-transparent pointer-events-none z-10" />
 
         <div className="relative z-10 max-w-[1440px] mx-auto px-4 sm:px-6 lg:px-12">
           <div className="bg-gradient-to-b from-[#181511]/95 to-[#100e0b]/95 rounded-2xl p-6 sm:p-10 lg:p-14 shadow-2xl border border-[#3e3422] relative overflow-hidden">

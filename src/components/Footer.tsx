@@ -1,6 +1,6 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { TabId } from '../types';
-import { ArrowRight, ShieldCheck, CheckCircle2, TrendingUp, Download, Mail, MessageCircle, Building2, ExternalLink, Lock } from 'lucide-react';
+import { ArrowRight, ShieldCheck, CheckCircle2, TrendingUp, Download, Mail, MessageCircle, Building2, ExternalLink, Lock, EyeOff } from 'lucide-react';
 
 interface FooterProps {
   onSelectTab: (tab: TabId) => void;
@@ -23,6 +23,61 @@ export const Footer: React.FC<FooterProps> = ({
   const [subscribed, setSubscribed] = useState(false);
   const [activeModal, setActiveModal] = useState<'privacy' | 'terms' | 'accreditations' | null>(null);
 
+  // Accessible reduced-motion manual override state with localStorage persistence
+  const [isForceReducedMotion, setIsForceReducedMotion] = useState<boolean>(() => {
+    if (typeof window === 'undefined') return false;
+    try {
+      const saved = localStorage.getItem('zk_force_reduced_motion');
+      if (saved !== null) return saved === 'true';
+      return window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    } catch {
+      return false;
+    }
+  });
+
+  useEffect(() => {
+    if (typeof window === 'undefined') return;
+    try {
+      const saved = localStorage.getItem('zk_force_reduced_motion');
+      const active = saved === 'true' || (saved === null && window.matchMedia('(prefers-reduced-motion: reduce)').matches);
+      if (active) {
+        document.documentElement.classList.add('force-reduced-motion');
+      } else {
+        document.documentElement.classList.remove('force-reduced-motion');
+      }
+    } catch {}
+
+    const handleExternalChange = () => {
+      try {
+        const saved = localStorage.getItem('zk_force_reduced_motion');
+        setIsForceReducedMotion(saved === 'true');
+      } catch {}
+    };
+
+    window.addEventListener('storage', handleExternalChange);
+    return () => window.removeEventListener('storage', handleExternalChange);
+  }, []);
+
+  const handleToggleReducedMotion = () => {
+    const nextState = !isForceReducedMotion;
+    setIsForceReducedMotion(nextState);
+    try {
+      localStorage.setItem('zk_force_reduced_motion', nextState ? 'true' : 'false');
+    } catch {}
+
+    if (nextState) {
+      document.documentElement.classList.add('force-reduced-motion');
+    } else {
+      document.documentElement.classList.remove('force-reduced-motion');
+    }
+
+    window.dispatchEvent(
+      new CustomEvent('zk-reduced-motion-change', {
+        detail: { forceReducedMotion: nextState },
+      })
+    );
+  };
+
   const handleSubscribe = (e: React.FormEvent) => {
     e.preventDefault();
     if (!email) return;
@@ -44,6 +99,16 @@ export const Footer: React.FC<FooterProps> = ({
 
   return (
     <footer className="relative w-full bg-[#080706] pt-12 sm:pt-16 pb-28 sm:pb-12 text-[#c8beaa] overflow-x-hidden snap-section">
+      {/* Hidden Accessibility Skip Toggle for Forced Reduced Motion */}
+      <button
+        type="button"
+        onClick={handleToggleReducedMotion}
+        className="sr-only focus:not-sr-only focus:fixed focus:bottom-6 focus:left-6 focus:z-50 focus:px-4 focus:py-2.5 focus:bg-[#14120e] focus:border focus:border-[#f2ca50] focus:text-[#f2ca50] focus:rounded-lg focus:shadow-2xl font-['Montserrat'] text-[11px] font-bold uppercase tracking-widest cursor-pointer"
+        aria-pressed={isForceReducedMotion}
+      >
+        {isForceReducedMotion ? 'Disable Forced Reduced Motion' : 'Force Reduced Motion (Accessibility Override)'}
+      </button>
+
       {/* Seamless Ambient Light Divider */}
       <div className="absolute top-0 inset-x-0 gold-gradient-divider-subtle pointer-events-none" />
       <div className="max-w-[1440px] mx-auto px-4 sm:px-6 lg:px-12">
@@ -265,6 +330,30 @@ export const Footer: React.FC<FooterProps> = ({
               className="text-[#a89e8b] hover:text-[#f2ca50] transition-colors cursor-pointer py-1 min-h-[36px] flex items-center"
             >
               Accreditations
+            </button>
+            {/* Hidden / Discreet Accessibility Reduced Motion Toggle */}
+            <span className="text-[#3e3422] hidden xs:inline">•</span>
+            <button
+              id="accessibility-reduced-motion-toggle"
+              type="button"
+              onClick={handleToggleReducedMotion}
+              className={`transition-colors cursor-pointer py-1 min-h-[36px] flex items-center gap-1.5 ${
+                isForceReducedMotion
+                  ? 'text-[#f2ca50] font-semibold'
+                  : 'text-[#8a806e] hover:text-[#f2ca50]'
+              }`}
+              title={
+                isForceReducedMotion
+                  ? 'Reduced motion manually forced active (Click to return to standard / system motion)'
+                  : 'Manually force reduced motion for accessibility if OS detection fails'
+              }
+              aria-pressed={isForceReducedMotion}
+              aria-label={`Accessibility Motion Preference: ${
+                isForceReducedMotion ? 'Forced Reduced Motion' : 'System Default'
+              }. Click to toggle.`}
+            >
+              <EyeOff className={`w-3 h-3 ${isForceReducedMotion ? 'text-[#f2ca50]' : 'text-[#8a806e]'}`} />
+              <span>{isForceReducedMotion ? 'Reduced Motion: Forced' : 'Reduced Motion'}</span>
             </button>
             {onOpenAdminCms && (
               <>

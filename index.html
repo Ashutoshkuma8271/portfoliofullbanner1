@@ -95,6 +95,15 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,opsz,wght@0,6..96,400..900;1,6..96,400..900&family=Cinzel:wght@400;500;600;700;800;900&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,600&family=Hanken+Grotesk:ital,wght@0,300..800;1,300..800&family=Montserrat:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
     <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet" />
+
+    <!-- Pre-hydration check for user-forced reduced motion setting -->
+    <script>
+      try {
+        if (localStorage.getItem('zk_force_reduced_motion') === 'true') {
+          document.documentElement.classList.add('force-reduced-motion');
+        }
+      } catch (e) {}
+    </script>
   </head>
   <body class="bg-[#131314] text-[#e5e2e3] antialiased selection:bg-[#d4af37] selection:text-[#131314]">
     <div id="root"></div>
